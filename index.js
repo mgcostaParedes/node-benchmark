@@ -4,6 +4,7 @@ const compression = require('compression');
 const app = express();
 const port = 3000;
 const query = require('./services/db');
+const binarySearch = require('./services/binarySearch');
 
 app.use(compression());
 app.use(bodyParser.json());
@@ -39,6 +40,18 @@ app.use('/compute', (req, res) => {
 		}
 
 		return res.json({ status: 'done' })
+});
+
+app.use('/search', (req, res) => {
+  const array = [];
+  for(i = 0; i < 10000; i++) {
+    array.push(i);
+  }
+  const search = binarySearch(array, Math.floor((Math.random() * 10000) + 1));
+  return res.json({
+    status: 'completed',
+    numberSearched: search
+  });
 });
 
 app.listen(port, () => {
