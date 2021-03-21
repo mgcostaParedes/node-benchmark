@@ -1,6 +1,5 @@
 const config = require('../config');
-
-const mysql = require('mysql2/promise');
-const pool  = mysql.createPool(config.db);
+const mysql = require('simple-pool-mysql');
+const pool  = new mysql({ default: config.db });
 
 module.exports = pool;

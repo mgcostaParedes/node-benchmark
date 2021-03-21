@@ -1,7 +1,7 @@
 const db = require('./mysql');
 
-async function query(sql, params) {
-  const [results, ] = await db.execute(sql, params);
+async function query(sql) {
+  const [results, ] = await db.query(sql);
   return results;
 }
 module.exports = query;
