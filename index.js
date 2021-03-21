@@ -5,6 +5,8 @@ const app = express();
 const port = 3000;
 const query = require('./services/db');
 const binarySearch = require('./services/binarySearch');
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
 app.use(compression());
 app.use(bodyParser.json());
@@ -54,6 +56,17 @@ app.use('/search', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-});
+if (cluster.isMaster) {
+  // Fork workers.
+  for (var i = 0; i < numCPUs; i++) {
+      cluster.fork();
+  }
+
+  cluster.on('exit', function(worker, code, signal) {
+      console.log('worker ' + worker.process.pid + ' died');
+  });
+} else {
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+  });
+}
