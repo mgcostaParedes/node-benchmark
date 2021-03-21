@@ -1,20 +1,11 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const compression = require('compression');
 const app = express();
 const port = 3000;
 const query = require('./services/db');
 const binarySearch = require('./services/binarySearch');
 var cluster = require('cluster');
+const mysql = require('./services/mysql');
 var numCPUs = require('os').cpus().length;
-
-app.use(compression());
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
 
 app.get('/', (req, res) => {
   res.json({'message': 'ok'});
@@ -70,3 +61,7 @@ if (cluster.isMaster) {
     console.log(`Example app listening at http://localhost:${port}`)
   });
 }
+
+app.on('close', function() {
+  mysql.end();
+});
