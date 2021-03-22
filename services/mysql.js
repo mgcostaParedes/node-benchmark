@@ -1,5 +1,16 @@
-const config = require('../config');
-const mysql = require('simple-pool-mysql');
-const pool  = new mysql({ default: config.db });
+const config = require('./config');
+const PoolManager = require('mysql-connection-pool-manager');
+// Pool manager settings
+const poolManager = {
+idleCheckInterval: 1000,
+maxConnextionTimeout: 30000,
+idlePoolTimeout: 3000,
+errorLimit: 5,
+preInitDelay: 50,
+sessionTimeout: 60000,
+mySQLSettings: config.db
+}
 
-module.exports = pool;
+// Initialising the instance
+const mySQL = PoolManager(poolManager);
+module.exports = mySQL;

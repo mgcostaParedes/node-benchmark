@@ -4,7 +4,6 @@ const config = {
     user: 'root',
     password: '123Ac123',
     database: 'benchmark',
-    connectionLimit: 10,
   },
 };
 

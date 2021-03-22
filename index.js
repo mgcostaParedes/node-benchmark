@@ -4,7 +4,6 @@ const port = 3000;
 const query = require('./services/db');
 const binarySearch = require('./services/binarySearch');
 var cluster = require('cluster');
-const mysql = require('./services/mysql');
 var numCPUs = require('os').cpus().length;
 
 app.get('/', (req, res) => {
@@ -70,7 +69,3 @@ if (cluster.isMaster) {
     console.log(`Example app listening at http://localhost:${port}`)
   });
 }
-
-app.on('close', function() {
-  mysql.end();
-});
