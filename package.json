@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql-connection-pool-manager": "^1.5.9",
+    "mysql-connection-pool-manager": "^1.5.9"
   }
 }
