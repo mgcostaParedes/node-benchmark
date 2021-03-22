@@ -21,6 +21,15 @@ app.use('/country', async (req, res) => {
   res.json({'data': rows});
 });
 
+app.use('/country-complex', async (req, res) => {
+  let rows = await query('Select apps_countries.*, apps_countries_detailed.* from apps_countries left join apps_countries_detailed on apps_countries.country_code = apps_countries_detailed.countryCode order by apps_countries_detailed.geonameId desc');
+  rows = rows.map((row, index) => {
+    row.newValue = 'index_' + index;
+    return row;
+  })
+  res.json({'data': rows});
+});
+
 app.use('/compute', (req, res) => {
   let x = 0, y = 1;
 
